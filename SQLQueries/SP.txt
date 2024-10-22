@@ -1,0 +1,130 @@
+﻿
+----Add Product
+CREATE    PROCEDURE [dbo].[AddProduct]
+
+@ProductName [nvarchar](max), @ProductDescription [nvarchar](max), @ProductPrice decimal, @ProductStock int
+
+AS BEGIN
+
+INSERT INTO [dbo].[Product] 
+
+(ProductName,
+ProductDescription,
+ProductPrice,
+ProductStock)
+
+VALUES
+(
+@ProductName,
+@ProductDescription,
+@ProductPrice,
+@ProductStock)
+
+END
+
+
+---- Update Product By ID
+
+CREATE      PROCEDURE [dbo].[UpdateProduct]
+
+@ProductId int, @ProductName [nvarchar](max), @ProductDescription [nvarchar](max), @ProductPrice decimal, @ProductStock int
+
+AS BEGIN
+
+UPDATE [dbo].[Product] 
+SET
+
+ProductName = @ProductName,
+ProductDescription = @ProductDescription,
+ProductPrice = @ProductPrice,
+ProductStock = @ProductStock
+
+where Product.ProductId = @ProductId
+
+END
+
+---Delete Product By ID
+
+CREATE    PROCEDURE [dbo].[DeleteProductByID]
+
+@ProductId int
+
+AS BEGIN
+
+DELETE FROM [dbo].[Product] 
+
+WHERE Product.ProductId = @ProductId
+
+END
+
+---- Get ProductByID
+
+CREATE    PROCEDURE [dbo].[GetProductByID]
+
+@ProductId int
+
+AS BEGIN
+
+SELECT 
+[dbo].[Product].[ProductId],
+[dbo].[Product].[ProductName],
+[dbo].[Product].[ProductDescription], 
+[dbo].[Product].[ProductPrice], 
+[dbo].[Product].[ProductStock] 
+FROM [dbo].[Product] 
+
+WHERE [dbo].[Product].[ProductId] = @ProductId
+
+
+END
+
+---- Get All Product
+
+CREATE    PROCEDURE [dbo].[GetProductList]
+
+AS BEGIN
+
+SELECT * FROM [dbo].[Product] 
+
+END
+
+---- Get All Product Sales List
+
+CREATE  PROCEDURE [dbo].[GetProductSalesList]
+
+AS
+
+BEGIN
+
+select S.SalesId, P.ProductId, P.ProductName, P.ProductDescription, s.ProductQuantity, s.ProductPrice
+
+from Product as P 
+
+inner join Sales as S 
+
+on P.ProductId = S.ProductId
+
+END
+
+
+----- Get Product Sales list by Product ID
+
+CREATE  PROCEDURE [dbo].[GetProductSalesListByID]
+
+@ProductId int
+
+AS
+
+BEGIN
+
+select S.SalesId, P.ProductId, P.ProductName, P.ProductDescription, s.ProductQuantity, s.ProductPrice
+
+from Product as P 
+
+inner join Sales as S 
+
+on P.ProductId = S.ProductId
+
+WHERE P.ProductId = @ProductId
+
+END
